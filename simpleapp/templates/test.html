@@ -1,0 +1,96 @@
+{% from "_formhelpers.html" import render_field %} {% extends "template.html" %}
+{% block content %}
+
+<h2>Test Yourself</h2>
+<div class="container" id="test">
+  <p>
+    Write down your answer to the question, then hover over it to see the correct answer. 
+  </p> 
+    <div id="demo">
+        <div id="datacontainer"></div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="card text-white bg-primary mb-3 center_button" style="max-width: 20rem;">
+        <div class="card-body">
+          <h5 class="card-title">Question</h5>
+          <div id="prompt-content">Page 1</div>
+        </div>
+    </div>
+    <div class="card text-white bg-secondary mb-3 center_button" style="max-width: 20rem;">
+        <div class="card-body">
+          <h5 class="card-title">Answer</h5>
+          <div id="page-content" class="spoiler">Page 1</div>
+        </div>
+    </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <ul id="pagination-demo" class="pagination"></ul>
+        </div>
+      </div>
+  
+      <a class="btn btn-primary center_button" href="/"> Done </a>  
+    </div>
+    
+  </div>
+<script>
+$('#pagination-demo').twbsPagination({
+        totalPages: {{package.questions|length}},
+        visiblePages: 6,
+        next: 'Next',
+        prev: 'Prev',
+        onPageClick: function (event, page) {
+            console.log(page)
+            var prompt;
+            var answer;
+            var done = 0;
+            var xhr1 = new XMLHttpRequest();
+            xhr1.onreadystatechange = function() {
+            if (xhr1.readyState == XMLHttpRequest.DONE) {
+                done += 1
+                prompt=xhr1.responseText;
+                if(done==2) {
+                  $('#prompt-content').text(prompt);
+                  $('#page-content').text(answer)
+                }
+              }
+            }
+            xhr1.open("POST", '/getpackageprompt', true);
+            xhr1.setRequestHeader("Content-Type", "application/json");
+            xhr1.send(
+                JSON.stringify({
+                    value: page,
+                    pkgid: {{package.id}}
+                })
+            );
+            
+            var xhr2 = new XMLHttpRequest();
+            xhr2.onreadystatechange = function() {
+              if (xhr2.readyState == XMLHttpRequest.DONE) {
+                done += 1
+                answer=xhr2.responseText;
+                if(done==2) {
+                  
+                  $('#prompt-content').text(prompt);
+                  $('#page-content').text(answer)
+                }
+              }
+            }
+            xhr2.open("POST", '/getpackageanswer', true);
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            xhr2.send(
+                JSON.stringify({
+                    value: page,
+                    pkgid: {{package.id}}
+                })
+            );
+            
+        }
+    });
+    $('.spoiler').on( 'click', function (e) {
+      $(this).toggleClass('spoiler');
+      e.stopPropagation();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "template.html" %}
+
+{% block content %}
+{% for package in packages %}
+<div id="myModal{{package.id}}" class="modal" hidden>
+  <!-- Modal content -->
+  
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form method="POST">
+      {{form.hidden_tag()}}
+
+      {{ render_field(form.username, class="form-control") }}
+
+      {{ form.done }}
+    </form>
+    <div class="users">
+      {% for j in package.users %}
+      <span>{{j.username}}</span>
+      {% endfor %}
+    </div>
+  </div>
+  
+</div>
+{% endfor %}
+
+<h2>My packages</h2>
+
+<p class="small_padding">
+  Click here to <a href="/makepackage">Make a Package</a>. 
+</p>
+
+{% if packages|length > 0 %}
+
+  <div class="container">
+    <table class="table">
+      <thead>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Date</th>
+          <th scope="col">Public</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          
+        </tr>
+      </thead>
+      <br>
+      <tbody>
+        {% for package in packages%}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{package.name}}</td>
+          <td>{{package.date_created}}</td>
+          <td>{{package.public}}</td>
+          <td><a class="btn btn-secondary" href="/delete/{{package.id}}">Delete</a></td>
+          <td><a class="btn btn-secondary" href="/revise/{{package.id}}">Revise</a></td>
+          <td><a class="btn btn-secondary" href="/test/{{package.id}}">Test Yourself</a></td>
+          <td><button class="share btn btn-primary" id="{{package.id}}">Share!</button></td>
+        </tr>
+        <br>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+{% else %}
+<p class="small_padding">
+  You do not have any packages yet! Create one and it will appear here. 
+  Study packages can help you remember facts for your exams by testing yourself using retrieval practice. 
+  You can also share the packages you have created with other users.
+</p>
+{% endif %}
+
+<script>
+  var modal = document.getElementById("myModal");
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+  $(".share").click(function(){
+    console.log((this).id)
+    $("#myModal"+(this.id)).fadeIn();
+    $("#myModal"+(this.id)).attr("hidden", false)
+    console.log($("#myModal"+(this.id)))
+    var modal = document.getElementById("myModal"+(this.id));
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+    x=(this).id 
+    $('[name="packageid"]').each(function() {
+      $(this).val(x); 
+    });
+  })
+
+  
+  var divtags = document.getElementsByClassName("users");
+  for(d of divtags) {
+    for (let ele of d.children) { 
+
+      ele.onclick = function () {
+        
+        var par=ele.parentElement.parentElement.parentElement
+        var packageidd=par.id.slice(7)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/removelink', true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        console.log(par.id.slice(7))
+        if (ele.innerHTML=="{{current_user.username}}"){
+          return;
+        }
+        xhr.send(
+          JSON.stringify({
+            packageid: par.id.slice(7),
+            username: ele.innerHTML,
+            
+          })
+        );
+
+        ele.style.display = "none"
+      };
+    }
+  }
+  
+  
+</script>
+{% endblock %}

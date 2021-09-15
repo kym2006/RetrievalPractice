@@ -1,0 +1,52 @@
+~/demologin$ sqlite3 simpleapp/app.db 
+SQLite version 3.22.0 2018-01-22 18:45:57
+Enter ".help" for usage hints.
+sqlite> .tables
+user
+sqlite> select * from user;
+sqlite>.exit
+
+
+
+https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
+
+~/demologin$ python
+Python 3.8.10 (default, May  5 2021, 03:01:07) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from simpleapp import db
+>>> from simpleapp.models import User
+>>> admin = User(username="admin", email="admin@example.com")
+>>> guest = User(username="guest", email="guest@example.com")
+>>> guest.set_password("secretpassword")
+>>> admin.set_password("secretpassword")
+>>> admin.check_password("wrongpass")
+False
+>>> admin.check_password("secretpassword")
+True
+>>> admin.check_password("secretpassword1")
+False
+>>> db.session.add(admin)
+>>> db.session.add(guest)
+>>> db.session.commit()
+>>> User.query.all()
+[<User admin>, <User guest>]
+>>> exit()
+
+
+~/demologin$ sqlite3 simpleapp/app.db 
+SQLite version 3.22.0 2018-01-22 18:45:57
+Enter ".help" for usage hints.
+sqlite> select * from user
+   ...> ;
+1|admin|pbkdf2:sha256:260000$ymvHUcOdK2lItWj5$4da44d802f31e2125d35ff268ff5fd724a10bc72a616cc1d324a4444cc97c1e8|admin@example.com|2021-07-05 02:46:55.215537
+2|guest|pbkdf2:sha256:260000$dpHgABjr4WNhN9To$ea75bdf57732d342a992168d1489f26a502e4cb3b450a51ee6e9dff33eb7e599|guest@example.com|2021-07-05 03:01:52.260654
+
+
+~/demologin$ python
+Python 3.8.10 (default, May  5 2021, 03:01:07) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from simpleapp.models import insert_dummy_data
+>>> insert_dummy_data()
+>>> exit()

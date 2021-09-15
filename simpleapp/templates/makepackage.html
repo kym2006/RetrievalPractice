@@ -1,0 +1,127 @@
+{% from "_formhelpers.html" import render_field %} {% extends "template.html" %}
+{% block content %}
+
+<h2>Make a Package</h2>
+<div class="container">  
+  
+  <p>
+    Create your new study package. Click on the buttons for the various question types that you can add. 
+    Once you have finished, click done and it will appear on your Home page.  
+  </p>
+
+  <input placeholder="Title" style="border:none" id="packagename" style="width:50px" value="{{packagename}}">
+  <span hidden id="saved">✔️</span>
+  <form method="POST">
+    
+    <!--{{ form.topic(id='packagename',placeholder='Topic') }}-->
+    
+    <br />
+    <button type="button" class="btn btn-secondary" value="definition" id="definitionbutton">
+      Definition
+    </button>
+    <button type="button" class="btn btn-secondary" value="explanation" id="explanationbutton">
+      Explanation
+    </button>
+    <button type="button" class="btn btn-secondary"value="example" id="examplebutton">
+      Example
+    </button>
+    
+      <div class="form form-horizontal" style="display: none" id="definitionform">
+        {{ form.definition(class_="formfield") }}
+        {{ form.submitdefinition(class_="btn") }}
+      </div>
+    
+    
+      <div style="display: none" id="explanationform">
+        {{ form.explanation(class_="formfield") }}
+        {{ form.submitexplanation(class_="btn") }}
+      </div>
+    
+
+   
+      <div style="display: none" id="exampleform">
+        {{ form.example(class_="formfield") }}
+        {{ form.submitexample(class_="btn") }}
+      </div>
+    
+    <br>
+    <br>
+    {{ form.done(class="btn btn-primary") }}
+  </form>
+
+  <script>
+    /*
+      $("#questiontype").change(function(){
+          x=$('#questiontype').find(":selected").val();
+          console.log(x)
+          window.location.replace("/makepackage/"+x)
+          
+      });
+      loc=$(location).attr('pathname')
+      t=loc.split('/').slice(-1)[0]
+      $("#questiontype").children().each(function()
+      {
+          if(t==$(this).val())$("#questiontype").val($(this).val())
+      });
+    */
+    $("#definitionbutton").click(function () {
+      console.log("hi");
+      $("input[type=text], textarea").val("");
+
+      $("#exampleform").hide();
+
+      $("#explanationform").hide();
+
+      $("#definitionform").fadeIn();
+    });
+
+    $("#explanationbutton").click(function () {
+      $("input[type=text], textarea").val("");
+
+      $("#exampleform").hide();
+
+      $("#definitionform").hide();
+
+      $("#explanationform").fadeIn();
+    });
+
+    $("#examplebutton").click(function () {
+      $("input[type=text], textarea").val("");
+      $("#definitionform").hide();
+
+      $("#explanationform").hide();
+
+      $("#exampleform").fadeIn();
+    });
+
+    var mousetimeout;
+    var idletime = 1;
+    var name;
+
+    function savename() {
+      name = $("input#packagename").val()
+      $("#saved").fadeIn();
+      $("#saved").attr("hidden",false);
+      console.log(name)
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", '/postname', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(
+        JSON.stringify({
+          value: name
+        })
+      );
+    
+    }
+
+    $("#packagename").keydown(function () {
+      $("#saved").fadeOut();
+      clearTimeout(mousetimeout);
+
+      mousetimeout = setTimeout(function () {
+        savename();
+      }, 1000 * idletime);
+    });
+  </script>
+</div>
+{% endblock %}

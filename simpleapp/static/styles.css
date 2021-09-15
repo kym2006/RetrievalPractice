@@ -1,0 +1,201 @@
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+h2{
+  margin: 0;
+  padding: 15px;
+}
+
+.small_padding{
+  padding-left: 15px;
+}
+.formfield {
+  font-size: 25px;
+}
+.formfield input{
+  height: 80px;
+  width: 700px;
+}
+.formfield textarea{
+  height:250px;
+  width: 700px;
+}
+
+@font-face{
+  font-family: Tisa;
+  src: url('TisaPro-Regular.otf');
+}
+.fancyfont{
+  font-family: 'Yellowtail', cursive;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+body {
+  font-family: 'Tisa', sans-serif;
+  font-size: 15pt;  
+}
+.wrapper{
+  margin: 60px auto;
+  text-align: center;
+}
+
+.center_button{
+  margin: 0 auto;
+  display: block;
+}
+
+h1{
+  margin-bottom: 1.25em;
+}
+#pagination-demo{
+  display: inline-block;
+  margin-bottom: 1.75em;
+}
+#pagination-demo li{
+  display: inline-block;
+}
+
+.page-background{
+  background: #eee;
+  display: inline-block;
+  padding: 10pt;
+  width: 100%;
+  max-width: 660px;
+  border-bottom: 1pt hsl(0, 0%, 88%)  solid;
+}
+
+.spoiler, .spoiler > * { transition: color 0.5s, opacity 0.5s }
+.spoiler:not(:hover) { color: transparent }
+.spoiler:not(:hover) > * { opacity: 0 }
+
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#contents_wrapper{
+  width: 100%;
+  position: absolute;
+  padding-left: 20px;  
+}
+
+#sidebar_wrapper{
+  background-color: rgb(179, 236, 231);
+  z-index: 1;
+  position: absolute;
+  height: 100%;
+  width: 0;
+  border: rgb(46, 145, 138) solid 1pt;
+  border-radius: 6px;
+  overflow-y: hidden;
+}
+
+#wrapper.menu_displayed #sidebar_wrapper{
+  width: 160px;
+}
+
+#wrapper.menu_displayed #contents_wrapper{
+  padding-left: 180px;
+  
+}    
+
+.sidebar_list{
+  padding: 0;
+  list-style: none;
+}
+.sidebar_list li{
+  text-indent: 20px;
+  line-height: 40px;
+
+}
+
+.sidebar_list li a{
+  display: block;
+  border-radius: 6px;
+  color: black;
+  text-decoration: none;
+}
+
+.sidebar_list li a:hover{
+  display: block;
+  background-color: rgb(0, 0, 50, .20);
+  text-decoration: underline;
+  border: rgb(46, 145, 138) solid 1pt;  
+}
+
+.toggle_button{
+  text-decoration: none;
+  font-size: 14pt;
+  color: black;
+  background-color: rgb(198, 211, 236);
+  border: 1pt solid rgb(71, 99, 151);
+  padding-left: 5pt;
+  padding-right: 5pt;
+  border-radius: 8px;
+}
+
+.toggle_button:hover{
+  text-decoration: underline;
+  background-color: rgb(157, 184, 235);
+}
+
+.alert{
+  color: rgb(75, 13, 13);
+  background-color: rgb(235, 181, 192);
+  width: 75%;
+  margin: 20px;
+  padding:5px;
+  padding-left: 25px;
+  border: solid 1pt rgb(75, 13, 13);
+  border-radius: 6px;
+}
+
+.greeting{
+  padding: 15px;
+  font-size: 18pt;
+  font-style: italic;
+}
+
+button{
+  font-size: 13pt;
+  padding: 0.2em;
+}
